@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Conversor de Medidas";
+    string tipoConversao = ViewBag.TipoConversao ?? "FAHR_CELS";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card shadow-sm border-0 rounded-lg p-4">
+            <div class="card-body">
+                <h2 class="h3 font-weight-bold text-center text-dark mb-4">Conversor de Medidas</h2>
+
+                <form asp-controller="Medidas" asp-action="Index" method="post" id="medidasForm">
+                    <!-- Manter o tipo de conversão selecionado -->
+                    <input type="hidden" name="tipoConversao" id="tipoConversaoInput" value="@tipoConversao" />
+
+                    <div class="form-group mb-4">
+                        <label for="ValorOriginal" class="text-dark font-weight-bold">Valor para converter:</label>
+                        <input id="ValorOriginal" name="valorOriginal" type="number" step="any" class="form-control form-control-lg" placeholder="Digite o valor..." value="@ViewBag.ValorOriginal" required />
+                    </div>
+
+                    <div class="row no-gutters mb-4">
+                        <div class="col-6 col-md-3 p-1">
+                            <button type="button" onclick="submeterConversao('POL_CM')" class="btn btn-block py-3 font-weight-bold btn-sm text-uppercase @(tipoConversao == "POL_CM" ? "btn-danger" : "btn-light border")">POL &gt;&gt; CM</button>
+                        </div>
+                        <div class="col-6 col-md-3 p-1">
+                            <button type="button" onclick="submeterConversao('FAHR_CELS')" class="btn btn-block py-3 font-weight-bold btn-sm text-uppercase @(tipoConversao == "FAHR_CELS" ? "btn-danger" : "btn-light border")">FAHR &gt;&gt; CELS</button>
+                        </div>
+                        <div class="col-6 col-md-3 p-1">
+                            <button type="button" onclick="submeterConversao('GAL_LIT')" class="btn btn-block py-3 font-weight-bold btn-sm text-uppercase @(tipoConversao == "GAL_LIT" ? "btn-danger" : "btn-light border")">GALÕES &gt;&gt; LITROS</button>
+                        </div>
+                        <div class="col-6 col-md-3 p-1">
+                            <button type="button" onclick="submeterConversao('LIB_KG')" class="btn btn-block py-3 font-weight-bold btn-sm text-uppercase @(tipoConversao == "LIB_KG" ? "btn-danger" : "btn-light border")">LIBRAS &gt;&gt; KG</button>
+                        </div>
+                    </div>
+                </form>
+
+                @if (ViewBag.Calculado == true)
+                {
+                    <div class="alert alert-success mt-4 mb-0 py-3" style="background-color: #DFF0D8; border-color: #D6E9C6; color: #3C763D;">
+                        <span class="h5 font-weight-bold mb-0">
+                            Resultado: @ViewBag.Resultado.ToString("N2") @ViewBag.UnidadeDestino
+                        </span>
+                        <span class="d-block small text-muted font-mono mt-1">Converteu @ViewBag.ValorOriginal @ViewBag.UnidadeOrigem para @ViewBag.UnidadeDestino</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function submeterConversao(tipo) {
+            document.getElementById('tipoConversaoInput').value = tipo;
+            document.getElementById('medidasForm').submit();
+        }
+    </script>
+}

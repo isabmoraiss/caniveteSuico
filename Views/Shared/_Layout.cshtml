@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MvcMaryIsa</title>
+    <!-- Bootstrap CSS standard for ASP.NET Core Visual Studio 2019 template -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #FDFDFD;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #333;
+        }
+        .navbar-custom {
+            background-color: #000000;
+            border-bottom: 4px solid #DC3545;
+        }
+        .navbar-custom .navbar-brand {
+            color: #ffffff;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+        }
+        .navbar-custom .nav-link {
+            color: #ced4da;
+            font-weight: 700;
+            margin-right: 5px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .navbar-custom .nav-item.active .nav-link {
+            color: #ffffff !important;
+            background-color: #DC3545 !important;
+        }
+        footer {
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="d-flex flex-col min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-md navbar-custom navbar-dark py-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MvcMaryIsa</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end">
+                    <ul class="navbar-nav">
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Início</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Imc" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Imc" asp-action="Index">IMC</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Cambio" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Cambio" asp-action="Index">Câmbio</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Medidas" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Medidas" asp-action="Index">Medidas</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Juros" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Juros" asp-action="Index">Juros</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Sorteador" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Sorteador" asp-action="Index">Sorteador</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Validador" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Validador" asp-action="Index">Validador de CPF e CNPJ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container flex-grow-1 py-5">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted py-4 mt-auto">
+        <div class="container">
+            <span>&copy; 2026 - MvcMaryIsa</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap framework JavaScript libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

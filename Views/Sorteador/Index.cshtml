@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Sorteador de Números";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 rounded-lg p-4">
+            <div class="card-body">
+                <h2 class="h3 font-weight-bold text-center text-dark mb-4">Sorteador de Números</h2>
+
+                <form asp-controller="Sorteador" asp-action="Index" method="post">
+                    @if (ViewBag.Erro != null)
+                    {
+                        <div class="alert alert-danger small font-weight-bold text-center">@ViewBag.Erro</div>
+                    }
+
+                    <div class="form-group">
+                        <label for="NumeroInicial" class="text-muted small font-weight-bold">Número Inicial:</label>
+                        <input id="NumeroInicial" name="numeroInicial" type="number" class="form-control form-control-lg text-dark" placeholder="Ex: 1" value="@ViewBag.NumeroInicial" required />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="NumeroFinal" class="text-muted small font-weight-bold">Número Final:</label>
+                        <input id="NumeroFinal" name="numeroFinal" type="number" class="form-control form-control-lg text-dark" placeholder="Ex: 100" value="@ViewBag.NumeroFinal" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-block btn-lg text-white font-weight-bold text-uppercase" style="background-color: #DC3545;">SORTEAR!</button>
+                </form>
+
+                @if (ViewBag.Sorteou == true)
+                {
+                    <div class="mt-5 pt-4 border-top text-center">
+                        <span class="d-block text-muted text-uppercase small font-weight-bold tracking-wider mb-2">Número Sorteado</span>
+                        <span class="display-1 font-weight-bold" style="color: #DC3545; font-size: 5.5rem;">@ViewBag.NumeroSorteado</span>
+                        <p class="small text-muted font-mono mt-2">Sorteado entre @ViewBag.NumeroInicial e @ViewBag.NumeroFinal</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

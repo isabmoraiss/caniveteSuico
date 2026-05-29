@@ -1,0 +1,6 @@
+{
+  "name": "MvcMaryIsa",
+  "description": "Aplicativo utilitário com conversor de câmbio, medidas, cálculo de IMC, juros compostos com gráfico, sorteador de números e validador de CPF e CNPJ.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

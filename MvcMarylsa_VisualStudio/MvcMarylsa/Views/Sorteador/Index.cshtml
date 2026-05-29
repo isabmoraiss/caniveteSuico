@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Sorteador de Números";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 rounded-lg p-4">
+            <div class="card-body">
+                <h2 class="h3 font-weight-bold text-center text-dark mb-4">Sorteador de Números</h2>
+
+                <form asp-controller="Sorteador" asp-action="Index" method="post">
+                    @if (ViewBag.Erro != null)
+                    {
+                        <div class="alert alert-danger small font-weight-bold text-center">@ViewBag.Erro</div>
+                    }
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="NumeroInicial" class="text-muted small font-weight-bold">Número Inicial</label>
+                            <input id="NumeroInicial" name="numeroInicial" type="number" class="form-control form-control-lg" placeholder="Mínimo" value="@ViewBag.NumeroInicial" required />
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="NumeroFinal" class="text-muted small font-weight-bold">Número Final</label>
+                            <input id="NumeroFinal" name="numeroFinal" type="number" class="form-control form-control-lg" placeholder="Máximo" value="@ViewBag.NumeroFinal" required / >
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-block btn-lg text-white font-weight-bold text-uppercase mt-4" style="background-color: #DC3545;">SORTEAR NÚMERO</button>
+                </form>
+
+                @if (ViewBag.Sorteou == true)
+                {
+                    <div class="mt-5 text-center alert alert-success py-4">
+                        <span class="d-block text-muted text-uppercase small font-weight-bold">Número Sorteado</span>
+                        <div class="display-1 font-weight-black my-2" style="font-size: 5.5rem; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); font-weight: 800; color: #28a745;">
+                            @ViewBag.NumeroSorteado
+                        </div>
+                        <span class="small text-muted d-block mt-2">Intervalo de @ViewBag.NumeroInicial a @ViewBag.NumeroFinal</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

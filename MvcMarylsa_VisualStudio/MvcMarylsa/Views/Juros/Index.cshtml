@@ -1,0 +1,121 @@
+@{
+    ViewData["Title"] = "Cálculo de Juros Compostos";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-9">
+        <div class="card shadow-sm border-0 rounded-lg p-4">
+            <div class="card-body">
+                <h2 class="h3 font-weight-bold text-dark border-bottom pb-3 mb-4">Calculadora de Juros Compostos</h2>
+
+                <form asp-controller="Juros" asp-action="Index" method="post" class="row align-items-end mb-4">
+                    @if (ViewBag.Erro != null)
+                    {
+                        <div class="col-12 alert alert-danger small font-weight-bold text-center">@ViewBag.Erro</div>
+                    }
+
+                    <div class="form-group col-12 col-md-3">
+                        <label for="Capital" class="text-muted small font-weight-bold uppercase">Capital (R$)</label>
+                        <input id="Capital" name="capital" type="number" step="any" class="form-control" placeholder="Ex: 1000" value="@ViewBag.Capital" required />
+                    </div>
+
+                    <div class="form-group col-12 col-md-3">
+                        <label for="Taxa" class="text-muted small font-weight-bold uppercase">Taxa % (a.m.)</label>
+                        <input id="Taxa" name="taxa" type="number" step="any" class="form-control" placeholder="Ex: 1.5" value="@ViewBag.Taxa" required />
+                    </div>
+
+                    <div class="form-group col-12 col-md-3">
+                        <label for="Meses" class="text-muted small font-weight-bold uppercase">Meses</label>
+                        <input id="Meses" name="meses" type="number" class="form-control" placeholder="Ex: 12" value="@ViewBag.Meses" required />
+                    </div>
+
+                    <div class="form-group col-12 col-md-3">
+                        <button type="submit" class="btn btn-danger btn-lg btn-block text-white font-weight-bold text-uppercase" style="background-color: #DC3545; height: calc(1.5em + .75rem + 10px);">VER GRÁFICO</button>
+                    </div>
+                </form>
+
+                @if (ViewBag.Calculado == true)
+                {
+                    <div class="row text-center mb-5" id="jurosSummary">
+                        <div class="col-md-4 mb-2">
+                            <div class="bg-light border rounded p-3">
+                                <span class="d-block text-muted text-uppercase small font-weight-bold">Capital Inicial</span>
+                                <span class="h4 font-weight-bold text-dark">R$ @ViewBag.Capital.ToString("N2")</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+                            <div class="border rounded p-3" style="background-color: #E8F5E9; border-color: #C8E6C9;">
+                                <span class="d-block text-success text-uppercase small font-weight-bold">Juros Acumulados</span>
+                                <span class="h4 font-weight-bold text-success">R$ @ViewBag.TotalJuros.ToString("N2")</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+                            <div class="border rounded p-3" style="background-color: #E8EAF6; border-color: #C5CAE9;">
+                                <span class="d-block text-indigo text-uppercase small font-weight-bold" style="color: #3F51B5;">Montante Acumulado</span>
+                                <span class="h4 font-weight-bold" style="color: #1A237E;">R$ @ViewBag.MontanteFinal.ToString("N2")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-light border-0">
+                        <div class="card-body p-4">
+                            <h5 class="font-weight-bold text-dark mb-4 text-center">Gráfico de Crescimento Patrimonial</h5>
+                            <div class="chart-container" style="position: relative; height:320px; width:100%">
+                                <canvas id="jurosChartCanvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @if (ViewBag.Calculado == true)
+    {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var ctx = document.getElementById('jurosChartCanvas').getContext('2d');
+                
+                var auditDataset = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.PontosMensais));
+                
+                var labels = auditDataset.map(function(item) { return 'Mês ' + item.Mes; });
+                var dataMontante = auditDataset.map(function(item) { return item.MontanteAcumulado; });
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Montante Acumulado (R$)',
+                            data: dataMontante,
+                            fill: true,
+                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                            borderColor: '#DC3545',
+                            borderWidth: 3,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        return 'R$ ' + value.toLocaleString('pt-BR');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    }
+}

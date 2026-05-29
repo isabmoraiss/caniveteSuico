@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Cálculo de IMC";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 rounded-lg p-4">
+            <div class="card-body">
+                <h2 class="h3 font-weight-bold text-center text-dark mb-4">Cálculo de IMC</h2>
+                
+                <form asp-controller="Imc" asp-action="Index" method="post">
+                    @if (ViewBag.Erro != null)
+                    {
+                        <div class="alert alert-danger small font-weight-bold text-center">@ViewBag.Erro</div>
+                    }
+                    
+                    <div class="form-group">
+                        <label for="Peso" class="text-muted small font-weight-bold">Peso (kg)</label>
+                        <input id="Peso" name="peso" type="number" step="any" class="form-control form-control-lg" placeholder="Ex: 75.3" value="@ViewBag.Peso" required />
+                    </div>
+                    
+                    <div class="form-group mb-4">
+                        <label for="Altura" class="text-muted small font-weight-bold">Altura (m)</label>
+                        <input id="Altura" name="altura" type="number" step="any" class="form-control form-control-lg" placeholder="Ex: 1.75" value="@ViewBag.Altura" required />
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block btn-lg font-weight-bold text-white text-uppercase" style="background-color: #DC3545;">Calcular</button>
+                </form>
+
+                @if (ViewBag.Calculado == true)
+                {
+                    <div class="mt-4 pt-4 border-top">
+                        <div class="alert text-center @(ViewBag.Classificacao == "Peso normal" ? "alert-success" : (ViewBag.Classificacao == "Abaixo do peso" ? "alert-warning" : "alert-danger"))">
+                            <span class="d-block small text-muted text-uppercase font-weight-bold">Resultado</span>
+                            <span class="d-block display-4 font-weight-bold">@ViewBag.ImcValor.ToString("F2")</span>
+                            <span class="font-weight-bold">@ViewBag.Classificacao</span>
+                        </div>
+                        
+                        <div class="table-responsive mt-3">
+                            <table class="table table-sm table-bordered font-weight-normal small text-muted">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>IMC</th>
+                                        <th>Classificação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="@(ViewBag.ImcValor < 18.5 ? "table-warning text-dark font-weight-bold" : "")">
+                                        <td>Abaixo de 18.5</td>
+                                        <td>Abaixo do peso</td>
+                                    </tr>
+                                    <tr class="@(ViewBag.ImcValor >= 18.5 && ViewBag.ImcValor < 25 ? "table-success text-dark font-weight-bold" : "")">
+                                        <td>18.5 a 24.9</td>
+                                        <td>Peso normal</td>
+                                    </tr>
+                                    <tr class="@(ViewBag.ImcValor >= 25 && ViewBag.ImcValor < 30 ? "table-warning text-dark font-weight-bold" : "")">
+                                        <td>25.0 a 29.9</td>
+                                        <td>Sobrepeso</td>
+                                    </tr>
+                                    <tr class="@(ViewBag.ImcValor >= 30 && ViewBag.ImcValor < 35 ? "table-danger text-dark font-weight-bold" : "")">
+                                        <td>30.0 a 34.9</td>
+                                        <td>Obesidade Grau I</td>
+                                    </tr>
+                                    <tr class="@(ViewBag.ImcValor >= 35 && ViewBag.ImcValor < 40 ? "table-danger text-dark font-weight-bold" : "")">
+                                        <td>35.0 a 39.9</td>
+                                        <td>Obesidade Grau II</td>
+                                    </tr>
+                                    <tr class="@(ViewBag.ImcValor >= 40 ? "table-danger text-dark font-weight-bold" : "")">
+                                        <td>Maior ou igual a 40</td>
+                                        <td>Obesidade Grau III</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

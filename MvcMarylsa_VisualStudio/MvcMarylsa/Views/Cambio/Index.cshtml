@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Conversor de Câmbio";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 rounded-lg p-4">
+            <div class="card-body">
+                <h2 class="h3 font-weight-bold text-center text-dark mb-4">Conversor de Câmbio</h2>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-warning small mb-3">@ViewBag.Error</div>
+                }
+
+                <div class="alert alert-secondary d-flex justify-content-between align-items-center mb-4 py-3 bg-light border-0">
+                    <span class="font-weight-bold text-muted small">Cotação Atual (USD):</span>
+                    <span class="h4 font-weight-bold text-dark mb-0">R$ @(ViewBag.CotacaoUsd?.ToString("F2") ?? "5.06")</span>
+                </div>
+
+                <form asp-controller="Cambio" asp-action="Index" method="post">
+                    <!-- Manter as cotações salvas no post -->
+                    <input type="hidden" name="cotacaoUsd" value="@(ViewBag.CotacaoUsd ?? 5.06)" />
+                    <input type="hidden" name="cotacaoEur" value="@(ViewBag.CotacaoEur ?? 5.52)" />
+
+                    <div class="form-group mb-4">
+                        <label for="ValorUsd" class="text-muted small font-weight-bold">Valor em US$</label>
+                        <input id="ValorUsd" name="valorUsd" type="number" step="any" class="form-control form-control-lg text-dark" placeholder="Valor em US$" value="@ViewBag.ValorUsd" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-block btn-lg text-white font-weight-bold text-uppercase" style="background-color: #DC3545;">CONVERTER PARA R$</button>
+                </form>
+
+                @if (ViewBag.Calculado == true)
+                {
+                    <div class="mt-4 pt-3 border-0 mx-auto text-center alert alert-success">
+                        <span class="d-block text-muted text-uppercase small font-weight-bold">Valor Convertido</span>
+                        <span class="d-block display-4 font-weight-bold text-success">R$ @ViewBag.ResultadoBrl.ToString("N2")</span>
+                        <span class="small text-muted font-mono">1 USD = R$ @ViewBag.CotacaoUsd.ToString("F4")</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

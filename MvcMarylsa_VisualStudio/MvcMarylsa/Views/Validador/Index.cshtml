@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Validador de CPF e CNPJ";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card shadow-sm border-0 rounded-lg p-4">
+            <div class="card-body">
+                <h2 class="h3 font-weight-bold text-center text-dark mb-4">Validador de CPF &amp; CNPJ</h2>
+
+                <form asp-controller="Validador" asp-action="Index" method="post">
+                    @if (ViewBag.Erro != null)
+                    {
+                        <div class="alert alert-danger small font-weight-bold text-center">@ViewBag.Erro</div>
+                    }
+
+                    <div class="form-group mb-4">
+                        <label for="Documento" class="text-muted small font-weight-bold">Digite o CPF ou CNPJ:</label>
+                        <input id="Documento" name="documento" type="text" class="form-control form-control-lg text-dark font-weight-bold" placeholder="Apenas números ou com pontos/traço..." value="@ViewBag.Documento" required />
+                        <small class="form-text text-muted">Exemplo CPF: 123.456.789-00 ou 12345678900. Exemplo CNPJ: 12.345.678/0001-95.</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-block btn-lg text-white font-weight-bold text-uppercase" style="background-color: #DC3545;">VALIDAR AGORA</button>
+                </form>
+
+                @if (ViewBag.Calculado == true)
+                {
+                    <div class="mt-4 pt-3 text-center alert @(ViewBag.Valido ? "alert-success" : "alert-danger")">
+                        <span class="d-block text-muted text-uppercase small font-weight-bold mb-1">Resultado da Validação</span>
+                        <h4 class="font-weight-bold mb-2">@ViewBag.MensagemExibicao</h4>
+                        @if (ViewBag.Valido)
+                        {
+                            <span class="d-block font-mono font-weight-bold text-dark">Documento Formatado: @ViewBag.DocumentoFormatado</span>
+                        }
+                        <span class="small text-muted d-block mt-2">Tipo de Documento Detectado: @ViewBag.Tipo</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
